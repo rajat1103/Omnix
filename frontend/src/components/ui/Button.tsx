@@ -60,6 +60,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         disabled={isDisabled}
+        aria-busy={loading || undefined}
         className={cn(
           // Base
           "inline-flex items-center justify-center font-medium rounded-md",
@@ -78,7 +79,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       >
         {loading ? (
-          <span className="inline-block w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+          <span className="inline-block w-3.5 h-3.5 rounded-full bg-current opacity-50" aria-hidden="true" />
         ) : (
           leftIcon
         )}

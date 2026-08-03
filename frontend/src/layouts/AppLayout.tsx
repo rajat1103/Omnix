@@ -20,11 +20,15 @@ import { Header } from "./Header";
  *
  * The layout itself contains no business logic.
  */
-export function AppLayout(): React.ReactElement {
+interface AppLayoutProps {
+  onOpenCommandPalette: () => void;
+}
+
+export function AppLayout({ onOpenCommandPalette }: AppLayoutProps): React.ReactElement {
   return (
     <div className="flex flex-col h-screen w-screen bg-[var(--bg-primary)] overflow-hidden min-w-[900px] min-h-[600px]">
       {/* Top navigation bar */}
-      <Header />
+      <Header onOpenCommandPalette={onOpenCommandPalette} />
 
       {/* Body: Sidebar + Main Content */}
       <div className="flex flex-1 overflow-hidden">

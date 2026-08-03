@@ -72,7 +72,7 @@ export default function Chat(): React.ReactElement {
           </div>
           <Badge variant="default">
             <Sparkles size={11} className="mr-1" strokeWidth={2} />
-            AI coming in Sprint 7
+            Conversation workspace
           </Badge>
         </div>
 
@@ -91,8 +91,8 @@ export default function Chat(): React.ReactElement {
               Ask Omnix anything
             </h2>
             <p className="text-[13px] text-[var(--text-secondary)] leading-relaxed">
-              Omnix can search your files, recall past conversations, and reason
-              over your knowledge base. AI capabilities arrive in Sprint 7.
+              Start with a prompt below. Connected workspace responses will appear
+              here when they are available.
             </p>
 
             {/* Suggestion Pills */}
@@ -155,7 +155,7 @@ export default function Chat(): React.ReactElement {
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) {
                   e.preventDefault();
-                  // Will connect to AI in Sprint 7
+                  // Message delivery is not connected in this desktop shell.
                 }
               }}
             />
@@ -168,7 +168,7 @@ export default function Chat(): React.ReactElement {
             />
           </div>
           <p className="text-[11px] text-[var(--text-disabled)] mt-2 text-center">
-            AI responses are coming in Sprint 7. Enter key to send, Shift+Enter for new line.
+            Enter submits a message when connected. Shift+Enter adds a new line.
           </p>
         </div>
       </div>

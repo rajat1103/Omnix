@@ -7,10 +7,15 @@
 
 /* ─── CSS Design Tokens ─────────────────────────────────── */
 :root {
+  /* Typography */
+  --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+
   /* Backgrounds */
   --bg-primary: #ffffff;
   --bg-secondary: #f9fafb;
   --bg-tertiary: #f3f4f6;
+  --bg-overlay: rgb(17 24 39 / 0.32);
 
   /* Borders */
   --border: #e5e7eb;
@@ -27,6 +32,24 @@
   --accent-muted: #eff6ff;
   --accent-muted-dark: #1e3a5f;
 
+  /* Sizing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+
+  /* Elevation */
+  --shadow-sm: 0 1px 2px rgb(15 23 42 / 0.05);
+  --shadow-md: 0 8px 24px rgb(15 23 42 / 0.12);
+  --shadow-lg: 0 16px 40px rgb(15 23 42 / 0.16);
+
   /* Semantic */
   --success: #16a34a;
   --warning: #d97706;
@@ -41,6 +64,7 @@
   --transition-fast: 100ms ease-out;
   --transition-normal: 150ms ease-in-out;
   --transition-slow: 200ms ease-in-out;
+  --focus-ring: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
 }
 
 /* ─── Dark Mode Tokens ──────────────────────────────────── */
@@ -48,6 +72,7 @@
   --bg-primary: #111827;
   --bg-secondary: #1f2937;
   --bg-tertiary: #374151;
+  --bg-overlay: rgb(3 7 18 / 0.58);
 
   --border: #374151;
   --border-strong: #4b5563;
@@ -65,6 +90,9 @@
   --warning: #f59e0b;
   --error: #ef4444;
   --info: #3b82f6;
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.18);
+  --shadow-md: 0 8px 24px rgb(0 0 0 / 0.28);
+  --shadow-lg: 0 16px 40px rgb(0 0 0 / 0.36);
 }
 
 /* ─── Base Reset ────────────────────────────────────────── */
@@ -84,7 +112,7 @@
   body {
     margin: 0;
     padding: 0;
-    font-family: "Inter", system-ui, -apple-system, sans-serif;
+    font-family: var(--font-sans);
     font-size: 14px;
     line-height: 1.6;
     color: var(--text-primary);
@@ -106,7 +134,7 @@
   :focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 2px;
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
   }
 
   /* Scrollbar styling */
@@ -138,10 +166,57 @@
       transition-duration: 0ms !important;
     }
   }
+
+  @media (prefers-contrast: more) {
+    :root {
+      --border: #94a3b8;
+      --border-strong: #475569;
+      --text-secondary: #334155;
+    }
+
+    .dark {
+      --border: #94a3b8;
+      --border-strong: #cbd5e1;
+      --text-secondary: #e2e8f0;
+    }
+  }
 }
 
 /* ─── Utility Classes ────────────────────────────────────── */
 @layer utilities {
+  @keyframes dialog-enter {
+    from {
+      opacity: 0;
+      transform: translateY(4px) scale(0.99);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @keyframes menu-enter {
+    from {
+      opacity: 0;
+      transform: translateY(-2px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes toast-enter {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
   .text-primary {
     color: var(--text-primary);
   }
@@ -174,25 +249,22 @@
     border-color: var(--border-strong);
   }
 
-  /* Skeleton shimmer for loading states */
-  .skeleton {
-    background: linear-gradient(
-      90deg,
-      var(--bg-tertiary) 25%,
-      var(--bg-secondary) 50%,
-      var(--bg-tertiary) 75%
-    );
-    background-size: 200% 100%;
-    animation: shimmer 1.5s infinite;
-    border-radius: 4px;
+  .surface-card {
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
   }
 
-  @keyframes shimmer {
-    0% {
-      background-position: 200% 0;
-    }
-    100% {
-      background-position: -200% 0;
-    }
+  .page-content {
+    width: min(100%, 860px);
+    margin-inline: auto;
+    padding: var(--space-8);
+  }
+
+  /* Static loading treatment avoids distracting motion. */
+  .skeleton {
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-sm);
   }
 }

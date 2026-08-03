@@ -8,6 +8,7 @@ import {
   Sun,
   Moon,
   Monitor,
+  SlidersHorizontal,
 } from "lucide-react";
 import { useTheme } from "@/hooks/useTheme";
 import { Button } from "@/components/ui/Button";
@@ -25,6 +26,12 @@ interface SettingsCategory {
 }
 
 const CATEGORIES: SettingsCategory[] = [
+  {
+    id: "general",
+    label: "General",
+    icon: SlidersHorizontal,
+    description: "Workspace and navigation preferences",
+  },
   {
     id: "appearance",
     label: "Appearance",
@@ -144,7 +151,7 @@ function ShortcutRow({
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function Settings(): React.ReactElement {
-  const [activeCategory, setActiveCategory] = useState("appearance");
+  const [activeCategory, setActiveCategory] = useState("general");
   const { theme, setTheme } = useTheme();
 
   return (
@@ -191,8 +198,30 @@ export default function Settings(): React.ReactElement {
 
       {/* ── Settings Content ── */}
       <div className="flex-1 overflow-y-auto">
-        <div className="p-8 max-w-[640px]">
+        <div className="p-8 max-w-[680px]">
           {/* ── Appearance ── */}
+          {activeCategory === "general" && (
+            <section>
+              <h2 className="text-[20px] font-semibold text-[var(--text-primary)] tracking-tight mb-1">
+                General
+              </h2>
+              <p className="text-[14px] text-[var(--text-secondary)] mb-8">
+                Workspace preferences for your Omnix desktop app.
+              </p>
+              <div className="rounded-lg border border-[var(--border)] bg-[var(--bg-primary)] px-4">
+                <SettingRow label="Workspace navigation" description="Use the sidebar or command palette to move between sections.">
+                  <Badge variant="accent">Enabled</Badge>
+                </SettingRow>
+                <SettingRow label="Command palette" description="Open available commands and navigation with Ctrl+K.">
+                  <Badge variant="default">Ctrl+K</Badge>
+                </SettingRow>
+                <SettingRow label="Desktop window" description="Omnix is optimized for a focused desktop workspace.">
+                  <Badge variant="default">Desktop</Badge>
+                </SettingRow>
+              </div>
+            </section>
+          )}
+
           {activeCategory === "appearance" && (
             <section>
               <h2 className="text-[20px] font-semibold text-[var(--text-primary)] tracking-tight mb-1">

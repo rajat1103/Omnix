@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { MessageSquare, Search, Clock, Calendar, ChevronRight } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
+import { EmptyState } from "@/components/ui/EmptyState";
+import { SectionHeader } from "@/components/ui/SectionHeader";
 import { cn } from "@/utils/cn";
 
 // ─── Tab ──────────────────────────────────────────────────────────────────────
@@ -100,21 +103,20 @@ export default function History(): React.ReactElement {
   const [activeTab, setActiveTab] = useState<HistoryTab>("all");
 
   return (
-    <div className="p-8 max-w-[860px] mx-auto">
+    <div className="page-content">
       {/* ── Page Header ── */}
-      <div className="flex items-start justify-between mb-6">
-        <div>
-          <h1 className="text-[24px] font-semibold text-[var(--text-primary)] tracking-tight">
-            History
-          </h1>
-          <p className="text-[14px] text-[var(--text-secondary)] mt-1">
-            Your past conversations, searches, and actions.
-          </p>
-        </div>
-        <Badge variant="default">
-          <Clock size={11} className="mr-1" strokeWidth={2} />
-          Persistent in Sprint 7
-        </Badge>
+      <div className="mb-6">
+        <SectionHeader
+          level="h1"
+          title="History"
+          description="Your past conversations, searches, and actions."
+          action={
+            <Badge variant="default">
+              <Clock size={11} className="mr-1" strokeWidth={2} />
+              Workspace activity
+            </Badge>
+          }
+        />
       </div>
 
       {/* ── Tabs ── */}
@@ -143,38 +145,19 @@ export default function History(): React.ReactElement {
       </div>
 
       {/* ── Timeline ── */}
-      <div
-        className={cn(
-          "rounded-lg border border-[var(--border)]",
-          "bg-[var(--bg-primary)] overflow-hidden"
-        )}
-      >
-        {/* Empty state */}
-        <div className="flex flex-col items-center justify-center py-16 px-6 text-center">
-          <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-[var(--bg-tertiary)] mb-3">
-            <Clock
-              size={18}
-              className="text-[var(--text-disabled)]"
-              strokeWidth={1.5}
-            />
-          </div>
-          <p className="text-[13px] font-medium text-[var(--text-primary)] mb-1">
-            No history yet
-          </p>
-          <p className="text-[12px] text-[var(--text-secondary)] max-w-[320px]">
-            Your activity will be recorded here once conversations and searches are
-            active in Sprint 7.
-          </p>
-          <Button variant="secondary" size="sm" className="mt-4">
-            Learn about History
-          </Button>
-        </div>
-      </div>
+      <Card padding="none">
+        <EmptyState
+          icon={<Clock size={18} strokeWidth={1.5} />}
+          title="No history yet"
+          description="Your workspace activity will appear here as you search and navigate Omnix."
+          action={<Button variant="secondary" size="sm">Learn about History</Button>}
+        />
+      </Card>
 
       {/* ── What This Will Show ── */}
       <div className="mt-6">
         <p className="text-[12px] font-medium text-[var(--text-disabled)] uppercase tracking-wider mb-3">
-          Coming in Sprint 7
+          Future activity preview
         </p>
         <div className="flex flex-col gap-1">
           <TimelineSection label="Today" />

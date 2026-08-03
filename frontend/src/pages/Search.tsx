@@ -3,6 +3,9 @@ import { Search as SearchIcon, FileText, SlidersHorizontal, X } from "lucide-rea
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
+import { Card } from "@/components/ui/Card";
+import { EmptyState } from "@/components/ui/EmptyState";
+import { SectionHeader } from "@/components/ui/SectionHeader";
 import { cn } from "@/utils/cn";
 
 // ─── Filter Chip ──────────────────────────────────────────────────────────────
@@ -42,15 +45,14 @@ export default function Search(): React.ReactElement {
   const hasQuery = query.trim().length > 0;
 
   return (
-    <div className="p-8 max-w-[860px] mx-auto">
+    <div className="page-content">
       {/* ── Page Header ── */}
       <div className="mb-6">
-        <h1 className="text-[24px] font-semibold text-[var(--text-primary)] tracking-tight">
-          Search
-        </h1>
-        <p className="text-[14px] text-[var(--text-secondary)] mt-1">
-          Find anything across your indexed files and documents.
-        </p>
+        <SectionHeader
+          level="h1"
+          title="Search"
+          description="Find anything across your indexed files and documents."
+        />
       </div>
 
       {/* ── Search Input ── */}
@@ -98,49 +100,27 @@ export default function Search(): React.ReactElement {
 
       {/* ── Results / Empty State ── */}
       {hasQuery ? (
-        <div
-          className={cn(
-            "rounded-lg border border-[var(--border)]",
-            "bg-[var(--bg-primary)] overflow-hidden"
-          )}
-        >
-          {/* Search in progress placeholder */}
-          <div className="flex flex-col items-center justify-center py-16 px-6 text-center">
-            <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-[var(--accent-muted)] dark:bg-[var(--accent-muted-dark)] mb-3">
-              <SearchIcon size={18} className="text-accent dark:text-blue-400" strokeWidth={1.5} />
-            </div>
-            <p className="text-[13px] font-medium text-[var(--text-primary)] mb-1">
-              Semantic search coming in Sprint 4
-            </p>
-            <p className="text-[12px] text-[var(--text-secondary)] max-w-[320px]">
-              Results will appear here once the backend and FAISS index are set up.
-            </p>
-            <div className="flex items-center gap-2 mt-4">
-              <Badge variant="default">Query: {query}</Badge>
-              <Badge variant="default">Filter: {activeFilter}</Badge>
-            </div>
-          </div>
-        </div>
+        <Card padding="none">
+          <EmptyState
+            icon={<SearchIcon size={18} className="text-accent" strokeWidth={1.5} />}
+            title="Search results will appear here"
+            description="Search is ready for an indexed workspace. Your selected query and filter are shown below."
+            action={
+              <div className="flex items-center gap-2">
+                <Badge variant="default">Query: {query}</Badge>
+                <Badge variant="default">Filter: {activeFilter}</Badge>
+              </div>
+            }
+          />
+        </Card>
       ) : (
-        <div
-          className={cn(
-            "rounded-lg border border-dashed border-[var(--border)]",
-            "bg-[var(--bg-primary)] overflow-hidden"
-          )}
-        >
-          <div className="flex flex-col items-center justify-center py-16 px-6 text-center">
-            <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-[var(--bg-tertiary)] mb-3">
-              <FileText size={18} className="text-[var(--text-disabled)]" strokeWidth={1.5} />
-            </div>
-            <p className="text-[13px] font-medium text-[var(--text-primary)] mb-1">
-              Search your files
-            </p>
-            <p className="text-[12px] text-[var(--text-secondary)] max-w-[300px]">
-              Type a query above to search across documents, notes, code, and more.
-              Natural language search available in Sprint 4.
-            </p>
-          </div>
-        </div>
+        <Card padding="none" className="border-dashed shadow-none">
+          <EmptyState
+            icon={<FileText size={18} strokeWidth={1.5} />}
+            title="Search your files"
+            description="Type a query above to search across documents, notes, code, and more."
+          />
+        </Card>
       )}
     </div>
   );

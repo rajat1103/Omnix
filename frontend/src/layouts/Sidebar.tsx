@@ -46,8 +46,8 @@ export function Sidebar(): React.ReactElement {
       className={cn(
         "flex flex-col h-full flex-shrink-0",
         "bg-[var(--bg-secondary)] border-r border-[var(--border)]",
-        "transition-[width] duration-[200ms] ease-in-out",
-        collapsed ? "w-14" : "w-[220px]"
+        "overflow-hidden transition-[width] duration-[200ms] ease-in-out",
+        collapsed ? "w-[var(--sidebar-collapsed-width)]" : "w-[var(--sidebar-width)]"
       )}
       aria-label="Main navigation"
     >
@@ -146,12 +146,12 @@ function NavItem({ item, collapsed, isActive }: NavItemProps): React.ReactElemen
       aria-label={item.label}
       aria-current={isActive ? "page" : undefined}
       className={cn(
-        "flex items-center gap-2.5 h-8 px-2 rounded-md w-full",
+        "relative flex items-center gap-2.5 h-8 px-2 rounded-md w-full",
         "text-[13px] font-medium",
         "transition-colors duration-[100ms] ease-out",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-1",
         isActive
-          ? "bg-[var(--accent-muted)] text-accent dark:bg-[var(--accent-muted-dark)] dark:text-blue-400"
+          ? "bg-[var(--accent-muted)] text-accent dark:bg-[var(--accent-muted-dark)] dark:text-blue-400 after:absolute after:left-0 after:h-4 after:w-0.5 after:rounded-r-full after:bg-current"
           : "text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] hover:text-[var(--text-primary)]",
         collapsed ? "justify-center" : "justify-start"
       )}
