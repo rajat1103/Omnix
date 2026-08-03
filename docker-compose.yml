@@ -1,52 +1,21 @@
-# =============================================================================
-# Omnix — docker-compose.yml
-# Status: PLACEHOLDER — Not yet implemented
-# This file will be populated during the deployment phase.
-# =============================================================================
-#
-# Planned services:
-#   - omnix-backend   : FastAPI Python backend
-#   - omnix-frontend  : (Development proxy only; desktop app via Tauri)
-#   - ollama          : Local LLM server (optional)
-#
-# Note: Omnix is a desktop-first, local application. Docker is intended
-# for development environment consistency and optional server-side
-# deployment, NOT for replacing the native Tauri desktop shell.
-#
-# =============================================================================
-
-version: "3.9"
-
 services:
-  # ---------------------------------------------------------------------------
-  # Backend — FastAPI
-  # ---------------------------------------------------------------------------
-  # omnix-backend:
-  #   build:
-  #     context: ./backend
-  #     dockerfile: Dockerfile
-  #   container_name: omnix-backend
-  #   ports:
-  #     - "8000:8000"
-  #   volumes:
-  #     - ./backend:/app
-  #     - omnix-data:/app/data
-  #   environment:
-  #     - ENVIRONMENT=development
-  #   restart: unless-stopped
-
-  # ---------------------------------------------------------------------------
-  # Ollama — Local LLM Server (optional)
-  # ---------------------------------------------------------------------------
-  # ollama:
-  #   image: ollama/ollama:latest
-  #   container_name: omnix-ollama
-  #   ports:
-  #     - "11434:11434"
-  #   volumes:
-  #     - ollama-models:/root/.ollama
-  #   restart: unless-stopped
-
-# volumes:
-#   omnix-data:
-#   ollama-models:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: omnix-backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "python -c \"import json, urllib.request; data = json.loads(urllib.request.urlopen('http://127.0.0.1:8000/health').read().decode()); raise SystemExit(0 if data.get('status') == 'healthy' else 1)\"",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s

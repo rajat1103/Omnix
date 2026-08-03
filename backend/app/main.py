@@ -6,6 +6,8 @@ from app.api.router import api_router
 from app.core.config import settings
 from app.core.lifespan import lifespan
 from app.core.logging import configure_logging
+from app.core.middleware import configure_middleware
+from app.exceptions import register_exception_handlers
 
 
 def create_app() -> FastAPI:
@@ -17,7 +19,9 @@ def create_app() -> FastAPI:
         debug=settings.debug,
         lifespan=lifespan,
     )
-    app.include_router(api_router)
+    configure_middleware(app, settings)
+    register_exception_handlers(app)
+    app.include_router(api_router, prefix=settings.api_prefix)
     return app
 
 
