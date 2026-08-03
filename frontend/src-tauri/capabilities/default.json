@@ -1,0 +1,11 @@
+{
+  "$schema": "../node_modules/@tauri-apps/cli/schema.json",
+  "identifier": "default",
+  "description": "Default capability set for Omnix — Sprint 1.1",
+  "permissions": [
+    "core:default",
+    "opener:default"
+  ],
+  "windows": ["main"],
+  "platforms": null
+}
